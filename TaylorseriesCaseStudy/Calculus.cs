@@ -8,7 +8,8 @@ using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
-
+using org.mariuszgromada.math.mxparser;
+using Expression = org.mariuszgromada.math.mxparser.Expression;
 
 
 namespace TaylorseriesCaseStudy
@@ -54,31 +55,23 @@ namespace TaylorseriesCaseStudy
         }
 
 
-        public static List<TaylorSeries> CalculateTaylorSeries(List<String> TaylorFormula, double lnrealvalue)
+        public static List<TaylorSeries> CalculateTaylorSeries(List<String> TaylorFormula, double lnrealvalue, int x)
         {
             var TaylorValueList = new List<TaylorSeries>();
             double LNRealValue = lnrealvalue;
 
             Parallel.ForEach(TaylorFormula, i =>
                 {
+                    // mxparser needs to be isntalled additionally in nuget: mxparser from http://mathparser.org
                     string form = i.ToString();
-                    //var TaylorCalced = new DataTable().Compute(i,"");
-                   // Expression e = new Expression
-                   //Expression expr = new Expression(i.ToString());
-                  // expr.Parameters["x"] = 1;
-                  
-                     //  expr.Evaluate();
-                     int itera = i.Count(x => x == '/');
-                     double calcvalue;
-                   
-                     
-                     
-                     //lock (TaylorFormula)
-                    // {
-                        //https://github.com/einsteinsci/math-plus and https://github.com/einsteinsci/math-parser
-                        calcvalue = Evaluator.Evaluate(form).ToDouble();
-                    // }
+                    double calcvalue;
+                    form.Replace('x', Convert.ToChar(x));
+                    mXparser parsi = new mXparser();
+                    Expression expr = new Expression(form);
 
+                    calcvalue = expr.calculate();
+
+                     int itera = i.Count(x => x == '/');
 
                      double diffrealvalue = lnrealvalue - calcvalue;
                      double absdiffrealval = Math.Abs(diffrealvalue);

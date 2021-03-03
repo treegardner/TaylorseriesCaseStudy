@@ -9,12 +9,14 @@ namespace TaylorseriesCaseStudy
         {
             int LnValue;
             int NmbrOfIteration;
+            int x;
             double LnRealValue;
             Calculus calc = new Calculus();
             
             Console.WriteLine("Willkommen in der Case Study zur Taylor Reihe");
             Console.WriteLine("Bitte gib mir deinen LN echt Wert zur Berechnung an: ");
             LnValue = Convert.ToInt32(Console.ReadLine());
+            x = LnValue;
             LnRealValue = calc.calcLN(LnValue);
             Console.WriteLine(""+LnRealValue); //delete
 
@@ -23,12 +25,12 @@ namespace TaylorseriesCaseStudy
 
             List<String> ItList = Calculus.CreateTaylorFormula(NmbrOfIteration);
 
-            foreach (string formula in ItList)
-            {
-              Console.WriteLine(formula);   
-            }
+           // foreach (string formula in ItList)
+            //{
+            //  Console.WriteLine(formula);   
+           // }
 
-            Calculus.CalculateTaylorSeries(ItList, LnRealValue);
+            Calculus.CalculateTaylorSeries(ItList, LnRealValue,x);
 
         }
     }
